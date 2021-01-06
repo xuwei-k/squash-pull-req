@@ -74,7 +74,7 @@ set -o xtrace
 git fetch origin $BASE_BRANCH
 git fetch fork $HEAD_BRANCH
 
-PR_TITLE=$(jq -r ".pull_request.title" "$GITHUB_EVENT_PATH")
+PR_TITLE=$(jq -r ".title" "$GITHUB_EVENT_PATH")
 
 VALUE1=$(jq -r ".pull_request" "$GITHUB_EVENT_PATH")
 VALUE2=$(jq -r ".issue" "$GITHUB_EVENT_PATH")
