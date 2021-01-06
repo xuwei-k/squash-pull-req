@@ -1,0 +1,15 @@
+name: auto squash
+on: 
+  issue_comment:
+    types: [created]
+jobs:
+  squash:
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/squash')
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - run: ./.github/squash.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
