@@ -74,9 +74,12 @@ set -o xtrace
 git fetch origin $BASE_BRANCH
 git fetch fork $HEAD_BRANCH
 
+PR_TITLE=$(jq -r ".pull_request.title" "$GITHUB_EVENT_PATH")
+
 # do the rebase
 git checkout $BASE_BRANCH
 git merge --squash fork/$HEAD_BRANCH
+git commit -m "$PR_TITLE"
 
 # push back
 git push --force-with-lease fork $BASE_BRANCH:$HEAD_BRANCH
