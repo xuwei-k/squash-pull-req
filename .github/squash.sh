@@ -10,7 +10,17 @@ if [[ "$PR_NUMBER" == "null" ]]; then
   echo "Failed to determine PR Number."
   exit 1
 fi
-echo "Collecting information about PR #$PR_NUMBER of $GITHUB_REPOSITORY..."
+
+PR_TITLE=$(jq -r ".pull_request.title" "$GITHUB_EVENT_PATH")
+if [[ "$PR_TITLE" == "null" ]]; then
+  PR_TITLE=$(jq -r ".issue.title" "$GITHUB_EVENT_PATH")
+fi
+if [[ "$PR_TITLE" == "null" ]]; then
+  echo "Failed to determine PR Number."
+  exit 1
+fi
+
+echo "Collecting information about PR $PR_TITLE #$PR_NUMBER of $GITHUB_REPOSITORY..."
 
 if [[ -z "$GITHUB_TOKEN" ]]; then
   echo "Set the GITHUB_TOKEN env variable."
@@ -73,15 +83,6 @@ set -o xtrace
 # make sure branches are up-to-date
 git fetch origin $BASE_BRANCH
 git fetch fork $HEAD_BRANCH
-
-PR_TITLE=$(jq -r ".title" "$GITHUB_EVENT_PATH")
-
-VALUE1=$(jq -r ".pull_request" "$GITHUB_EVENT_PATH")
-VALUE2=$(jq -r ".issue" "$GITHUB_EVENT_PATH")
-
-echo $VALUE1
-echo $VALUE2
-echo $GITHUB_EVENT_PATH
 
 # do the rebase
 git checkout $BASE_BRANCH
