@@ -61,7 +61,7 @@ fi
 HEAD_REPO=$(echo "$pr_resp" | jq -r .head.repo.full_name)
 HEAD_BRANCH=$(echo "$pr_resp" | jq -r .head.ref)
 
-if [[ "$HEAD_BRANCH" == "master" || "$HEAD_BRANCH" == "master" || "$HEAD_BRANCH" == "master" ]]; then
+if [[ "$HEAD_BRANCH" == "master" || "$HEAD_BRANCH" == "develop" || "$HEAD_BRANCH" == "production_ready" ]]; then
   echo "${HEAD_BRANCH} はsquash禁止です"
   exit 1
 fi
