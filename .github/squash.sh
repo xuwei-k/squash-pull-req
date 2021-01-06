@@ -76,7 +76,6 @@ git fetch fork $HEAD_BRANCH
 
 # do the rebase
 git checkout -b $HEAD_BRANCH fork/$HEAD_BRANCH
-git reset --mixed origin/$BASE_BRANCH
 git merge --squash HEAD@{1}
 
 # push back
