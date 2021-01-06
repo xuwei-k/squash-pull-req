@@ -4,7 +4,7 @@ on:
     types: [created]
 jobs:
   squash:
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/squash')
+    if: github.event.issue.pull_request != '' && github.event.comment.body == '/squash'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
