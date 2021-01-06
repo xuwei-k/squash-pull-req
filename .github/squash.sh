@@ -76,6 +76,13 @@ git fetch fork $HEAD_BRANCH
 
 PR_TITLE=$(jq -r ".pull_request.title" "$GITHUB_EVENT_PATH")
 
+VALUE1=$(jq -r ".pull_request" "$GITHUB_EVENT_PATH")
+VALUE2=$(jq -r ".issue" "$GITHUB_EVENT_PATH")
+
+echo $VALUE1
+echo $VALUE2
+echo $GITHUB_EVENT_PATH
+
 # do the rebase
 git checkout $BASE_BRANCH
 git merge --squash fork/$HEAD_BRANCH
