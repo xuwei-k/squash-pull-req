@@ -34,7 +34,6 @@ AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
 pr_resp=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
           "${URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
 
-BASE_REPO=$(echo "$pr_resp" | jq -r .base.repo.full_name)
 BASE_BRANCH=$(echo "$pr_resp" | jq -r .base.ref)
 
 USER_LOGIN=$(jq -r ".comment.user.login" "$GITHUB_EVENT_PATH")
@@ -72,22 +71,22 @@ USER_TOKEN=${USER_LOGIN//-/_}_TOKEN
 UNTRIMMED_COMMITTER_TOKEN=${!USER_TOKEN:-$GITHUB_TOKEN}
 COMMITTER_TOKEN="$(echo -e "${UNTRIMMED_COMMITTER_TOKEN}" | tr -d '[:space:]')"
 
-git remote set-url origin https://x-access-token:$COMMITTER_TOKEN@github.com/$GITHUB_REPOSITORY.git
+git remote set-url origin "https://x-access-token:$COMMITTER_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 git config --global user.email "$USER_EMAIL"
 git config --global user.name "$USER_NAME"
 
-git remote add fork https://x-access-token:$COMMITTER_TOKEN@github.com/$HEAD_REPO.git
+git remote add fork "https://x-access-token:$COMMITTER_TOKEN@github.com/$HEAD_REPO.git"
 
 set -o xtrace
 
 # make sure branches are up-to-date
-git fetch origin $BASE_BRANCH
-git fetch fork $HEAD_BRANCH
+git fetch origin "$BASE_BRANCH"
+git fetch fork "$HEAD_BRANCH"
 
 # do the rebase
-git checkout $BASE_BRANCH
-git merge --squash fork/$HEAD_BRANCH
+git checkout "$BASE_BRANCH"
+git merge --squash "fork/$HEAD_BRANCH"
 git commit -m "$PR_TITLE"
 
 # push back
-git push --force-with-lease fork $BASE_BRANCH:$HEAD_BRANCH
+git push --force-with-lease fork "$BASE_BRANCH:$HEAD_BRANCH"
