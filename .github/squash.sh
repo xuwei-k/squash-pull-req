@@ -16,7 +16,7 @@ if [[ "$PR_TITLE" == "null" ]]; then
   PR_TITLE=$(jq -r ".issue.title" "$GITHUB_EVENT_PATH")
 fi
 if [[ "$PR_TITLE" == "null" ]]; then
-  echo "Failed to determine PR Number."
+  echo "Failed to determine PR Title."
   exit 1
 fi
 
@@ -79,11 +79,8 @@ git remote add fork "https://x-access-token:$COMMITTER_TOKEN@github.com/$HEAD_RE
 
 set -o xtrace
 
-# make sure branches are up-to-date
 git fetch origin "$BASE_BRANCH"
 git fetch fork "$HEAD_BRANCH"
-
-# do the rebase
 git checkout "$BASE_BRANCH"
 git merge --squash "fork/$HEAD_BRANCH"
 git commit -m "$PR_TITLE"
