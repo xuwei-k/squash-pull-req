@@ -75,7 +75,7 @@ git fetch origin $BASE_BRANCH
 git fetch fork $HEAD_BRANCH
 
 # do the rebase
-git checkout -b $BASE_BRANCH origin/$BASE_BRANCH
+git checkout $BASE_BRANCH
 git merge --squash $HEAD_BRANCH
 
 # push back
