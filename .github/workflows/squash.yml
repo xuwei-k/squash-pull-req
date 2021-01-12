@@ -12,12 +12,12 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const headRef = github.issues.get({
+          const response = await github.issues.get({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo
-          }).head.ref;
-          core.setOutput('HEAD_REF', headRef)
+          });
+          core.setOutput('HEAD_REF', response.head.ref)
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
