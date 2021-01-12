@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-        ref: "${{ steps.get_pull_req_branch.HEAD_REF }}"
+        ref: "${{ steps.get_pull_req_branch.outputs.HEAD_REF }}"
     - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
