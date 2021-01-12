@@ -16,13 +16,14 @@ jobs:
             repo: context.repo.repo,
             per_page: 100
           });
+          (async () => {
           pulls.data.forEach(pull => {
             const pullReq = await github.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pull.number
             });
-            if(pullReq.data.mergeable === false) {
+            if (pullReq.data.mergeable === false) {
               const comments = await github.pulls.listReviewComments({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -40,3 +41,4 @@ jobs:
               }
             }
           });
+          })();
