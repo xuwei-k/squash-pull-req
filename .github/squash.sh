@@ -83,7 +83,10 @@ git fetch origin "$BASE_BRANCH"
 git fetch fork "$HEAD_BRANCH"
 git checkout "$BASE_BRANCH"
 git merge --squash "fork/$HEAD_BRANCH"
-git commit -m "$PR_TITLE"
+git commit --no-edit
+COMMIT_MESSAGE="$PR_TITLE\n\n"
+COMMIT_MESSAGE+=$(git log --pretty=format:%B HEAD...HEAD^)
+git commit --amend "$COMMIT_MESSAGE" 
 
 # push back
 git push --force-with-lease fork "$BASE_BRANCH:$HEAD_BRANCH"
