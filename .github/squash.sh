@@ -84,7 +84,8 @@ git fetch fork "$HEAD_BRANCH"
 git checkout "$BASE_BRANCH"
 git merge --squash "fork/$HEAD_BRANCH"
 git commit --no-edit
-COMMIT_MESSAGE="$PR_TITLE\n\n"
+NEW_LINE=$'\n'
+COMMIT_MESSAGE="$PR_TITLE$NEW_LINE$NEW_LINE"
 COMMIT_MESSAGE+=$(git log --pretty=format:%B HEAD...HEAD^)
 git commit --amend -m "$COMMIT_MESSAGE" 
 
