@@ -86,7 +86,7 @@ git merge --squash "fork/$HEAD_BRANCH"
 git commit --no-edit
 COMMIT_MESSAGE="$PR_TITLE\n\n"
 COMMIT_MESSAGE+=$(git log --pretty=format:%B HEAD...HEAD^)
-git commit --amend "$COMMIT_MESSAGE" 
+git commit --amend -m "$COMMIT_MESSAGE" 
 
 # push back
 git push --force-with-lease fork "$BASE_BRANCH:$HEAD_BRANCH"
