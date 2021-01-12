@@ -17,7 +17,7 @@ jobs:
             per_page: 100
           });
           (async () => {
-          pulls.data.forEach(pull => {
+          for(const pull of pulls) {
             const pullReq = await github.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -40,5 +40,5 @@ jobs:
                 });
               }
             }
-          });
+          }
           })();
