@@ -36,7 +36,7 @@ pr_resp=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
 
 BASE_BRANCH=$(echo "$pr_resp" | jq -r .base.ref)
 
-USER_LOGIN=$(jq -r ".comment.user.login" "$GITHUB_EVENT_PATH")
+USER_LOGIN=$(echo "$pr_resp" | jq -r .user.login)
 
 user_resp=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
             "${URI}/users/${USER_LOGIN}")
