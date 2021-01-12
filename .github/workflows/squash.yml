@@ -17,7 +17,8 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo
           });
-          core.setOutput('HEAD_REF', response.head.ref)
+          console.log(response);
+          core.setOutput('HEAD_REF', response.head.ref);
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
