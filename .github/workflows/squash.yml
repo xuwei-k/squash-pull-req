@@ -7,10 +7,21 @@ jobs:
     if: github.event.issue.pull_request != '' && github.event.comment.body == '/squash'
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/github-script@v3.1.0
+      id: get_pull_req_branch
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const headRef = github.issues.get({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo
+          }).head.ref;
+          core.setOutput('HEAD_REF', headRef)
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-        ref: "pr/${{ github.issue.number }}"
+        ref: "${{ steps.get_pull_req_branch.HEAD_REF }}"
     - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
