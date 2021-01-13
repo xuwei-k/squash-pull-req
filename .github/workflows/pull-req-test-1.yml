@@ -1,0 +1,15 @@
+name: delete pull request comments
+on:
+  pull_request:
+    types: [synchronize, reopened, edited]
+jobs:
+  delete-bot-comments:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/github-script@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const script = require(`${process.env.GITHUB_WORKSPACE}/.github/delete-bot-comments.js`)
+          console.log(script({github, context}))
