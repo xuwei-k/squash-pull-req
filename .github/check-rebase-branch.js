@@ -1,5 +1,7 @@
 module.exports = ({github, context}) => {
   (async () => {
+    console.log(github);
+    console.log(context);
     const pull_req = await github.pulls.get({
       owner: context.repo.owner,
       repo: context.repo.repo,
