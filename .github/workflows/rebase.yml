@@ -13,6 +13,12 @@ jobs:
     - env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
+    - uses: actions/github-script@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const script = require(`${process.env.GITHUB_WORKSPACE}/.github/check-rebase-branch.js`)
+          console.log(script({github, context}))
     - uses: cirrus-actions/rebase@7e3fc92f1b6a4d19f607d5cb3d70ce8a1ec13b1c
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
