@@ -8,8 +8,8 @@ module.exports = ({github, context}) => {
     console.log(pull_req);
     console.log(pull_req.data.head);
     console.log(pull_req.data.head.ref);
-    if (pull_req.head.ref === "ppp") {
-      throw "このbranchはrebase禁止";
+    if (pull_req.data.head.ref === "ppp") {
+      throw new Error("このbranchはrebase禁止");
     }
   })();
 };
