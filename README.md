@@ -1,5 +1,3 @@
 # squash-pull-req
 
-a
-
-b
+zzz
