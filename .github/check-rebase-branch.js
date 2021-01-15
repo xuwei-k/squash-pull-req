@@ -5,7 +5,7 @@ module.exports = ({github, context}) => {
     const pull_req = await github.pulls.get({
       owner: context.repo.owner,
       repo: context.repo.repo,
-      pull_number: github.issue.number
+      pull_number: context.payload.issue.number
     });
     console.log(pull_req);
     console.log(pull_req.head);
